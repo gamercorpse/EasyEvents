@@ -1,0 +1,51 @@
+# ============================================================
+# EasyEvents Modules
+# ============================================================
+#
+# This file controls which EasyEvents features are enabled.
+# Every feature module is enabled by default.
+# After changing a module, run:
+#   /easyevents reload
+# or:
+#   /ee reload
+# A full server restart is not required.
+
+# MODULE BEHAVIOR
+# ------------------------------------------------------------
+#
+# calendar:
+#
+#   Controls calendar.yml and scheduled calendar
+#   announcements.
+#
+#   When disabled:
+#
+#   - calendar.yml is not processed
+#   - the calendar scheduler is stopped
+#   - no calendar announcements are broadcast
+#
+#
+# daily-login:
+#
+#   Controls daily.yml and the daily login reward system.
+#
+#   When disabled:
+#
+#   - /daily cannot be used
+#   - /daily r cannot be used
+#   - /ee daily cannot be used
+#   - daily reward GUIs cannot be claimed
+#   - existing player streak data is NOT deleted
+#
+#   Re-enabling the module restores access to the existing
+#   player data.
+#
+# ============================================================
+
+modules:
+
+  calendar:
+    enabled: true
+
+  daily-login:
+    enabled: true

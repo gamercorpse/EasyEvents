@@ -1,0 +1,62 @@
+# ============================================================
+# EasyEvents Configuration
+# ============================================================
+# General configuration for EasyEvents.
+# Calendar events themselves remain in:
+# calendar.yml
+#
+# ============================================================
+
+
+# ============================================================
+# Storage
+# ============================================================
+#
+# EasyEvents supports two storage systems:
+#
+#   yml
+#   mysql
+#
+# YAML is the default and requires no external database.
+# YAML data is stored in:
+# plugins/EasyEvents/data.yml
+# To use MySQL:
+#
+# storage:
+#   type: mysql
+#
+# Then configure the MySQL connection below.
+#
+# If EasyEvents cannot connect to MySQL during startup,
+# it will automatically fall back to YAML storage.
+#
+# ============================================================
+
+storage:
+  # Valid options:
+  # yml
+  # mysql
+  type: "yml"
+
+
+  # ==========================================================
+  # MySQL Settings
+  # ==========================================================
+  #
+  # These values are only used when:
+  # storage.type: mysql
+  # ==========================================================
+
+  mysql:
+
+    host: "localhost"
+    port: 3306
+    database: "easyevents"
+    username: "root"
+    password: ""
+
+    # Database table used by EasyEvents.
+    # Only letters, numbers and underscores should be used.
+    table: "easy_events_data"
+    # Enable this if your MySQL server requires SSL.
+    use-ssl: false

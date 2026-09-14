@@ -1,0 +1,113 @@
+# ============================================================
+# EasyEvents Calendar
+# ============================================================
+#
+# EasyEvents can run announcements automatically when a
+# configured calendar date occurs.
+#
+# DATE FORMATS
+# ------------------------------------------------------------
+#
+# Recurring every year:
+#   12-25
+# This will run every December 25th.
+#
+#
+# Exact one-time date:
+#   2026-12-25
+# This will only run on December 25th, 2026.
+#
+# FREQUENCY
+# ------------------------------------------------------------
+#
+# frequency-seconds controls how long EasyEvents waits between
+# each announcement.
+#
+# Examples:
+#
+#   60    = 1 minute
+#   300   = 5 minutes
+#   600   = 10 minutes
+#   1800  = 30 minutes
+#   3600  = 1 hour
+#
+#
+# ANNOUNCEMENTS
+# ------------------------------------------------------------
+#
+# Add as many announcements as you want
+# EasyEvents will rotate through them in order.
+#
+# COLORS
+# ------------------------------------------------------------
+#
+# Legacy colors:
+#   &aGreen
+#   &cRed
+#   &6Gold
+#
+# RGB:
+#   &#FF0000Red
+#   {#FF0000}Red
+#
+# Gradient:
+#   <gradient:#ff0000:#00ff00>Text</gradient>
+#
+# ============================================================
+
+settings:
+
+  # SYSTEM uses the operating system/server timezone.
+  #
+  # You may alternatively use a Java timezone such as:
+  #
+  # America/Phoenix
+  # America/New_York
+  # America/Chicago
+  # America/Los_Angeles
+  # UTC
+  #
+  timezone: "SYSTEM"
+
+
+events:
+
+  christmas:
+    # Enables or disables this event.
+    enabled: true
+    # MM-dd makes this repeat every year.
+    date: "12-25"
+    # Broadcast one announcement every 5 minutes.
+    frequency-seconds: 300
+    announcements:
+      - "<gradient:#ff0000:#00ff00><bold>Merry Christmas!</bold></gradient>"
+      - "&aEnjoy the holiday!"
+      - "&cWe hope everyone is having a wonderful Christmas!"
+      - "&#FFD700Happy Holidays from the server staff!"
+      - "<gradient:#ff0000:#ffffff:#00ff00>Thank you for spending Christmas with us!</gradient>"
+
+
+  new_year:
+    enabled: true
+    # Recurs every January 1st.
+    date: "01-01"
+    # Every 10 minutes.
+    frequency-seconds: 600
+    announcements:
+      - "<gradient:#FFD700:#FFFFFF><bold>Happy New Year!</bold></gradient>"
+      - "&eWelcome to a brand new year!"
+      - "&#00FFFFThank you for being part of our community!"
+
+
+  example_one_time_event:
+
+    # Disabled example.
+    enabled: false
+    # yyyy-MM-dd makes this event happen only on this exact date.
+    date: "2026-10-31"
+    # Every 15 minutes.
+    frequency-seconds: 900
+    announcements:
+      - "&6Happy Halloween!"
+      - "<gradient:#ff6600:#9900ff>Have a spooky day!</gradient>"
+      - "&#FFAA00Watch out for things that go bump in the night!"

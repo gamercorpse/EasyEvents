@@ -1,0 +1,33 @@
+name: EasyEvents
+version: '1.0'
+
+main: com.gamercorpse.easyevents.EasyEvents
+api-version: '26.2'
+load: POSTWORLD
+folia-supported: true
+description: Dynamic server events and calendar announcements.
+
+authors: [ Gamercorpse ]
+
+commands:
+
+  easyevents:
+    description: Main EasyEvents command.
+    usage: /easyevents
+    aliases:
+      - ee
+
+  daily:
+    description: Opens the daily rewards menu.
+    usage: /daily
+    permission: easyevents.daily
+
+permissions:
+
+  easyevents.admin:
+    description: Allows access to EasyEvents administration commands.
+    default: op
+
+  easyevents.daily:
+    description: Allows a player to use the daily rewards system.
+    default: true

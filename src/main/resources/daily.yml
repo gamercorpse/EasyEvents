@@ -1,0 +1,490 @@
+# ============================================================
+# EasyEvents Daily Rewards
+# ============================================================
+#
+# Commands:
+#
+#   /daily
+#   /daily r
+#   /daily rewards
+#   /ee daily
+#
+#
+# HOW DAILY STREAKS WORK
+# ------------------------------------------------------------
+#
+# A player starts at the first configured reward day.
+#
+# If they claim the next calendar day, the next reward unlocks.
+#
+# Example:
+#
+# Monday    -> Day 1
+# Tuesday   -> Day 2
+# Wednesday -> Day 3
+#
+# If they miss Wednesday and return Thursday:
+#
+# Thursday -> Day 1
+#
+# Missing even one claim day resets the streak.
+#
+# After claiming the final configured reward day, the next
+# consecutive calendar day starts again at Day 1.
+#
+#
+# STORAGE
+# ------------------------------------------------------------
+#
+# Daily claim data uses EasyEvents' configured storage system.
+#
+# If config.yml contains:
+#
+# storage:
+#   type: yml
+#
+# data is stored in data.yml.
+#
+# If it contains:
+#
+# storage:
+#   type: mysql
+#
+# the same data is stored in MySQL.
+#
+#
+# SLOTS
+# ------------------------------------------------------------
+#
+# Inventory slots are zero-based.
+#
+# A 27-slot inventory uses:
+#
+#  0  1  2  3  4  5  6  7  8
+#  9 10 11 12 13 14 15 16 17
+# 18 19 20 21 22 23 24 25 26
+#
+#
+# COMMANDS
+# ------------------------------------------------------------
+#
+# Every command listed under a reward day is executed by
+# the SERVER CONSOLE after the player successfully claims it.
+#
+# Do NOT include a slash. A leading slash will be removed
+# automatically if you include one anyway.
+#
+# Available placeholders:
+#
+#   %player%   Player name
+#   %uuid%     Player UUID
+#   %day%      Configured reward day number
+#   %position% Position in the current streak
+#
+# Examples:
+#
+# commands:
+#   - "minecraft:give %player% minecraft:diamond 3"
+#   - "eco give %player% 1000"
+#   - "lp user %player% permission set temporary.example true"
+#
+#
+# ITEMS
+# ------------------------------------------------------------
+#
+# The GUI's displayed item is NOT the reward itself.
+#
+# The displayed GUI item cannot be taken.
+#
+# To give the player an item, use a console command:
+#
+#   - "minecraft:give %player% minecraft:diamond 3"
+#
+#
+# ITEM STATES
+# ------------------------------------------------------------
+#
+# Every day must have an "item" section.
+#
+# You MAY additionally configure:
+#
+#   available-item:
+#   claimed-item:
+#   locked-item:
+#
+# If one of those sections is missing, EasyEvents uses the
+# normal "item" section and simply appends the appropriate
+# status lore.
+#
+#
+# COLORS
+# ------------------------------------------------------------
+#
+# Legacy:
+#
+#   &aGreen
+#   &cRed
+#
+# RGB:
+#
+#   &#00FF99Text
+#   {#00FF99}Text
+#
+# MiniMessage:
+#
+#   <gradient:#00ff99:#00ccff>Text</gradient>
+#
+# ============================================================
+
+
+settings:
+
+  # SYSTEM uses the operating system/server timezone.
+  #
+  # Examples:
+  #
+  # America/Phoenix
+  # America/New_York
+  # America/Chicago
+  # America/Los_Angeles
+  # UTC
+  #
+  timezone: "SYSTEM"
+
+
+# ============================================================
+# GUI
+# ============================================================
+
+gui:
+
+  title: "<gradient:#00ff99:#00ccff><bold>Daily Rewards</bold></gradient>"
+
+  # Must ultimately resolve to a multiple of 9 between 9 and 54.
+  #
+  # Invalid values are automatically adjusted.
+  #
+  size: 27
+
+  # If true, the GUI closes after a successful claim.
+  #
+  # If false, it refreshes so the newly claimed reward
+  # immediately displays as claimed.
+  #
+  close-after-claim: false
+
+
+  # ----------------------------------------------------------
+  # Status Lore
+  # ----------------------------------------------------------
+  #
+  # These lines are automatically appended to the lore of
+  # each day's displayed item.
+  #
+  # Available placeholders:
+  #
+  # %day%
+  # %position%
+  # %status%
+  #
+  # ----------------------------------------------------------
+
+  status-lore:
+
+    available:
+      - ""
+      - "&a&lAVAILABLE"
+      - "&7Click to claim!"
+
+    claimed:
+      - ""
+      - "&a✔ Claimed"
+
+    locked:
+      - ""
+      - "&c✘ Locked"
+      - "&7Continue your daily streak to unlock."
+
+
+  # ----------------------------------------------------------
+  # Filler Item
+  # ----------------------------------------------------------
+
+  filler:
+
+    enabled: true
+
+    item:
+
+      material: "BLACK_STAINED_GLASS_PANE"
+
+      amount: 1
+
+      name: " "
+
+      lore: []
+
+      unbreakable: false
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+
+# ============================================================
+# Messages
+# ============================================================
+
+messages:
+
+  claimed: "<gradient:#00ff99:#00ccff>You claimed Daily Reward %day%!</gradient>"
+
+  already-claimed-today: "&cYou have already claimed your daily reward today."
+
+  already-claimed: "&eYou have already claimed that reward in your current streak."
+
+  locked: "&cThat daily reward has not unlocked yet."
+
+  processing: "&eYour daily reward claim is already being processed."
+
+  no-rewards: "&cThere are currently no daily rewards configured."
+
+  reward-no-longer-exists: "&cThat reward no longer exists. The menu has been refreshed."
+
+  error: "&cAn error occurred while processing your daily reward."
+
+
+# ============================================================
+# Daily Rewards
+# ============================================================
+#
+# You may add as many days as you want.
+#
+# They do not technically have to be numbered consecutively,
+# although using 1, 2, 3, 4, etc. is strongly recommended.
+#
+# EasyEvents sorts the numeric sections into ascending order
+# and uses that as the streak order.
+#
+# ============================================================
+
+days:
+
+  1:
+
+    slot: 10
+
+    item:
+
+      material: "CHEST"
+
+      amount: 1
+
+      name: "&a&lDay 1"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&b3 Diamonds"
+
+      unbreakable: false
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+
+    # Optional icon used only while this reward is available.
+    #
+    available-item:
+
+      material: "CHEST"
+
+      amount: 1
+
+      name: "&a&lDay 1"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&b3 Diamonds"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+
+    commands:
+      - "minecraft:give %player% minecraft:diamond 3"
+
+
+  2:
+
+    slot: 11
+
+    item:
+
+      material: "IRON_INGOT"
+
+      amount: 2
+
+      name: "&a&lDay 2"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&f16 Iron Ingots"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+    commands:
+      - "minecraft:give %player% minecraft:iron_ingot 16"
+
+
+  3:
+
+    slot: 12
+
+    item:
+
+      material: "GOLD_INGOT"
+
+      amount: 3
+
+      name: "&e&lDay 3"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&e8 Gold Ingots"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+    commands:
+      - "minecraft:give %player% minecraft:gold_ingot 8"
+
+
+  4:
+
+    slot: 13
+
+    item:
+
+      material: "EMERALD"
+
+      amount: 4
+
+      name: "&a&lDay 4"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&a5 Emeralds"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+    commands:
+      - "minecraft:give %player% minecraft:emerald 5"
+
+
+  5:
+
+    slot: 14
+
+    item:
+
+      material: "EXPERIENCE_BOTTLE"
+
+      amount: 5
+
+      name: "&b&lDay 5"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&b16 Experience Bottles"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+    commands:
+      - "minecraft:give %player% minecraft:experience_bottle 16"
+
+
+  6:
+
+    slot: 15
+
+    item:
+
+      material: "DIAMOND"
+
+      amount: 6
+
+      name: "&b&lDay 6"
+
+      lore:
+        - "&7Daily login reward"
+        - ""
+        - "&fReward:"
+        - "&b6 Diamonds"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+    commands:
+      - "minecraft:give %player% minecraft:diamond 6"
+
+
+  7:
+
+    slot: 16
+
+    item:
+
+      material: "NETHER_STAR"
+
+      amount: 1
+
+      name: "<gradient:#FFD700:#FF6600><bold>Day 7</bold></gradient>"
+
+      lore:
+        - "&7Weekly streak reward!"
+        - ""
+        - "&fReward:"
+        - "&e1 Nether Star"
+        - "&b10 Diamonds"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+
+    # This demonstrates an optional different icon once
+    # Day 7 has been claimed.
+    #
+    claimed-item:
+
+      material: "LIME_STAINED_GLASS_PANE"
+
+      amount: 1
+
+      name: "&a&lDay 7 Complete"
+
+      lore:
+        - "&7Weekly reward completed!"
+
+      item-flags:
+        - "HIDE_ATTRIBUTES"
+
+
+    # Multiple commands may execute from one click.
+    #
+    commands:
+      - "minecraft:give %player% minecraft:nether_star 1"
+      - "minecraft:give %player% minecraft:diamond 10"
