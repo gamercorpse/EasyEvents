@@ -14,11 +14,8 @@
 #
 #   /easyevents reload
 #
-#
 # Storage is core infrastructure and is therefore not a
 # disable-able module.
-#
-# Storage configuration remains in config.yml.
 #
 # ============================================================
 
@@ -28,14 +25,11 @@ modules:
   # Calendar
   # ==========================================================
   #
-  # Uses:
+  # Configuration:
   #
   #   calendar.yml
   #
-  # Provides date-based recurring and one-time announcements.
-  #
   calendar:
-
     enabled: true
 
 
@@ -43,14 +37,11 @@ modules:
   # Daily Login
   # ==========================================================
   #
-  # Uses:
+  # Configuration:
   #
   #   daily.yml
   #
-  # Provides consecutive daily login rewards.
-  #
   daily-login:
-
     enabled: true
 
 
@@ -58,14 +49,11 @@ modules:
   # Auto Broadcast
   # ==========================================================
   #
-  # Uses:
+  # Configuration:
   #
   #   broadcasts.yml
   #
-  # Rotates configurable server announcements automatically.
-  #
   auto-broadcast:
-
     enabled: true
 
 
@@ -73,15 +61,11 @@ modules:
   # Player Milestones
   # ==========================================================
   #
-  # Uses:
+  # Configuration:
   #
   #   milestones.yml
   #
-  # Triggers announcements and commands when configurable
-  # online-player thresholds are reached.
-  #
   player-milestones:
-
     enabled: true
 
 
@@ -89,13 +73,56 @@ modules:
   # Random Events
   # ==========================================================
   #
-  # Uses:
+  # Configuration:
   #
   #   random-events.yml
   #
-  # Periodically rolls configurable chances for server-wide
-  # events.
-  #
   random-events:
+    enabled: true
 
+
+  # ==========================================================
+  # Join Events
+  # ==========================================================
+  #
+  # Configuration:
+  #
+  #   join-events.yml
+  #
+  # Supports separate actions for:
+  #
+  # - first-time players
+  # - returning players
+  #
+  join-events:
+    enabled: true
+
+
+  # ==========================================================
+  # Death Events
+  # ==========================================================
+  #
+  # Configuration:
+  #
+  #   death-events.yml
+  #
+  # Can broadcast configurable death announcements and
+  # execute console commands when players die.
+  #
+  death-events:
+    enabled: true
+
+
+  # ==========================================================
+  # Advancement Events
+  # ==========================================================
+  #
+  # Configuration:
+  #
+  #   advancement-events.yml
+  #
+  # Lets the administrator associate specific Minecraft
+  # advancements with messages, broadcasts, and commands.
+  #
+  advancement-events:
     enabled: true

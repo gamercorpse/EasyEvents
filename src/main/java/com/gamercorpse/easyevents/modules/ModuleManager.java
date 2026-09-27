@@ -26,6 +26,15 @@ public class ModuleManager {
     public static final String RANDOM_EVENTS =
             "random-events";
 
+    public static final String JOIN_EVENTS =
+            "join-events";
+
+    public static final String DEATH_EVENTS =
+            "death-events";
+
+    public static final String ADVANCEMENT_EVENTS =
+            "advancement-events";
+
     private final EasyEvents plugin;
 
     private final Map<String, Boolean> modules =
@@ -114,6 +123,21 @@ public class ModuleManager {
                 true
         );
 
+        loadModule(
+                JOIN_EVENTS,
+                true
+        );
+
+        loadModule(
+                DEATH_EVENTS,
+                true
+        );
+
+        loadModule(
+                ADVANCEMENT_EVENTS,
+                true
+        );
+
         plugin.getLogger().info(
                 "Loaded " +
                         modules.size() +
@@ -162,6 +186,21 @@ public class ModuleManager {
 
         modules.put(
                 RANDOM_EVENTS,
+                true
+        );
+
+        modules.put(
+                JOIN_EVENTS,
+                true
+        );
+
+        modules.put(
+                DEATH_EVENTS,
+                true
+        );
+
+        modules.put(
+                ADVANCEMENT_EVENTS,
                 true
         );
     }

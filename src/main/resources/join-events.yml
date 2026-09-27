@@ -1,0 +1,128 @@
+# ============================================================
+# EasyEvents Join Events
+# ============================================================
+#
+# This module allows different actions for first-time players
+# and returning players.
+#
+# Module control:
+#
+# modules.yml
+#
+#   join-events:
+#     enabled: true
+#
+#
+# PLACEHOLDERS
+# ------------------------------------------------------------
+#
+# %player%
+#   Player name.
+#
+# %uuid%
+#   Player UUID.
+#
+# %world%
+#   World the player joined in.
+#
+# %online_players%
+#   Current online player count.
+#
+#
+# COMMANDS
+# ------------------------------------------------------------
+#
+# Commands are executed by the server console.
+#
+# Do not include a slash.
+#
+#
+# COLORS
+# ------------------------------------------------------------
+#
+# Existing EasyEvents ColorUtil formatting can be used.
+#
+# Legacy:
+#
+#   &aGreen
+#
+# RGB:
+#
+#   &#00FF99Text
+#
+# Gradient:
+#
+#   <gradient:#00ff99:#00ccff>Text</gradient>
+#
+# ============================================================
+
+
+# ============================================================
+# First Join
+# ============================================================
+#
+# This section runs when Player#hasPlayedBefore() is false.
+#
+# ============================================================
+
+first-join:
+
+  enabled: true
+
+  # Messages sent only to the joining player.
+  player-messages:
+
+    - "<gradient:#00ff99:#00ccff><bold>Welcome to the server!</bold></gradient>"
+
+    - "&7Thanks for joining us for the first time, &f%player%&7!"
+
+
+  # Messages broadcast to everyone online.
+  broadcasts:
+
+    - "&aWelcome &e%player% &ato the server for the first time!"
+
+
+  # Commands executed from console.
+  commands:
+
+    # Example:
+    #
+    # - "give %player% minecraft:bread 16"
+    #
+    # Leave empty if no commands should execute.
+    []
+
+
+# ============================================================
+# Returning Player
+# ============================================================
+
+returning-player:
+
+  enabled: true
+
+  player-messages:
+
+    - "&aWelcome back, &e%player%&a!"
+
+    - "&7There are currently &f%online_players% &7players online."
+
+
+  broadcasts:
+
+    # Example:
+    #
+    # - "&7%player% has joined the server."
+    #
+    # Leave empty to avoid an additional broadcast.
+    []
+
+
+  commands:
+
+    # Example:
+    #
+    # - "say %player% has returned!"
+    #
+    []

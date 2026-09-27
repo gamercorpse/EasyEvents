@@ -282,6 +282,46 @@ public class EasyEventsCommand
 
         sender.sendMessage(
                 ColorUtil.colorize(
+                        "&7Join Events: " +
+                                getModuleStatus(
+                                        ModuleManager.JOIN_EVENTS
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Death Events: " +
+                                getModuleStatus(
+                                        ModuleManager.DEATH_EVENTS
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Advancement Events: " +
+                                getModuleStatus(
+                                        ModuleManager.ADVANCEMENT_EVENTS
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.ADVANCEMENT_EVENTS
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Configured advancements: &f" +
+                                    plugin.getAdvancementEventListener()
+                                            .getEventCount()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
                         "&6&m--------------------------------"
                 )
         );
@@ -332,6 +372,33 @@ public class EasyEventsCommand
                         "&7Random Events: " +
                                 getModuleStatus(
                                         ModuleManager.RANDOM_EVENTS
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Join Events: " +
+                                getModuleStatus(
+                                        ModuleManager.JOIN_EVENTS
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Death Events: " +
+                                getModuleStatus(
+                                        ModuleManager.DEATH_EVENTS
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Advancement Events: " +
+                                getModuleStatus(
+                                        ModuleManager.ADVANCEMENT_EVENTS
                                 )
                 )
         );

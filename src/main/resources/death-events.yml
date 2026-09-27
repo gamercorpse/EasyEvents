@@ -1,0 +1,72 @@
+# ============================================================
+# EasyEvents Death Events
+# ============================================================
+# This module can broadcast custom messages and execute
+# console commands whenever a player dies.
+# Module control:
+# modules.yml
+#   death-events:
+#     enabled: true
+# PLACEHOLDERS
+# ------------------------------------------------------------
+# %player%
+#   Player who died.
+# %uuid%
+#   UUID of the player who died.
+# %killer%
+#   Player killer, if there was one.
+# %cause%
+#   Bukkit DamageCause responsible for the death.
+# %world%
+#   World where the player died.
+# %online_players%
+#   Current number of online players.
+# Examples of %cause% values include:
+#   FALL
+#   FIRE
+#   FIRE_TICK
+#   LAVA
+#   DROWNING
+#   ENTITY_ATTACK
+#   PROJECTILE
+#   VOID
+#   SUFFOCATION
+# COMMANDS
+# ------------------------------------------------------------
+# Commands execute from the server console.
+# Do not include a slash.
+# ============================================================
+
+settings:
+  enabled: true
+  # If true, Minecraft's normal death message will not be
+  # displayed.
+  # This is useful when the custom announcement below should
+  # completely replace vanilla death messages.
+  disable-vanilla-death-message: false
+  # Value used by %killer% when the player was not killed
+  # directly by another player.
+  #
+  no-killer-name: "None"
+# ============================================================
+# Announcements
+# ============================================================
+# These are sent to the entire server whenever a player dies.
+# Leave this list empty if you only want commands to execute.
+# ============================================================
+announcements:
+  - "&c%player% &7has died."
+  - "&8Cause: &7%cause%"
+# ============================================================
+# Commands
+# ============================================================
+#
+# Example:
+#
+#   - "say %player% died from %cause%"
+#
+# Commands execute for every player death while this module
+# is enabled.
+#
+# ============================================================
+commands: []

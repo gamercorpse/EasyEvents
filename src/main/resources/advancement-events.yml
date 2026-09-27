@@ -1,0 +1,124 @@
+# ============================================================
+# EasyEvents Advancement Events
+# ============================================================
+#
+# This module lets the administrator configure actions for
+# SPECIFIC Minecraft advancements.
+#
+# It does not automatically announce every advancement.
+#
+# This avoids unwanted events such as recipe-related
+# advancements.
+#
+# Module control:
+#
+# modules.yml
+#
+#   advancement-events:
+#     enabled: true
+#
+#
+# ADVANCEMENT FORMAT
+# ------------------------------------------------------------
+#
+# Advancement keys use Minecraft NamespacedKey format:
+#   minecraft:story/mine_stone
+# If "minecraft:" is omitted, EasyEvents automatically adds it.
+#
+# Therefore both of these  work:
+#   minecraft:story/mine_stone
+#   story/mine_stone
+#
+#
+# PLACEHOLDERS
+# ------------------------------------------------------------
+#
+# %player%
+#   Player who completed the advancement.
+# %uuid%
+#   Player UUID.
+# %world%
+#   Player's current world.
+# %event%
+#   Internal EasyEvents event name from this file.
+# %advancement%
+#   Minecraft advancement key.
+# %online_players%
+#   Current number of online players.
+#
+# COMMANDS
+# ------------------------------------------------------------
+# Commands execute from the server console.
+# Do not include a slash.
+# ============================================================
+
+events:
+  # ==========================================================
+  # Stone Age
+  # ==========================================================
+  stone-age:
+    enabled: true
+    advancement: "minecraft:story/mine_stone"
+    # Messages sent only to the player who completed it.
+    player-messages:
+      - "&aYou completed the &eStone Age &aadvancement!"
+    # Messages broadcast to everyone.
+    announcements:
+      - "&e%player% &7has entered the Stone Age!"
+    # Console commands.
+    commands:
+      # Example:
+      #
+      # - "give %player% minecraft:coal 4"
+      #
+      []
+  # ==========================================================
+  # Diamonds
+  # ==========================================================
+  diamonds:
+    enabled: true
+    advancement: "minecraft:story/mine_diamond"
+    player-messages:
+      - "<gradient:#00FFFF:#55FFFF><bold>DIAMONDS!</bold></gradient>"
+    announcements:
+      - "&b%player% &7has found diamonds!"
+    commands: []
+  # ==========================================================
+  # Enter the Nether
+  # ==========================================================
+  enter-nether:
+    enabled: true
+    advancement: "minecraft:story/enter_the_nether"
+    player-messages:
+      - "&6You have entered the Nether."
+    announcements:
+      - "&e%player% &7has entered the &cNether&7!"
+    commands: []
+  # ==========================================================
+  # Enter the End
+  # ==========================================================
+  enter-end:
+    enabled: true
+    advancement: "minecraft:story/enter_the_end"
+    player-messages:
+      - "&dYou have entered The End."
+    announcements:
+      - "&d%player% &7has entered &5The End&7!"
+    commands: []
+  # ==========================================================
+  # Kill the Ender Dragon
+  # ==========================================================
+  kill-dragon:
+    enabled: true
+    advancement: "minecraft:end/kill_dragon"
+    player-messages:
+      - "<gradient:#AA00FF:#FF55FF><bold>THE END</bold></gradient>"
+      - "&dYou defeated the Ender Dragon!"
+    announcements:
+      - "<gradient:#AA00FF:#FF55FF><bold>%player% HAS DEFEATED THE ENDER DRAGON!</bold></gradient>"
+    commands:
+      # Example reward:
+      #
+      # - "give %player% minecraft:diamond 5"
+      #
+      []

@@ -5,7 +5,10 @@ import com.gamercorpse.easyevents.calendar.CalendarManager;
 import com.gamercorpse.easyevents.commands.DailyCommand;
 import com.gamercorpse.easyevents.commands.EasyEventsCommand;
 import com.gamercorpse.easyevents.daily.DailyManager;
+import com.gamercorpse.easyevents.listeners.AdvancementEventListener;
 import com.gamercorpse.easyevents.listeners.DailyMenuListener;
+import com.gamercorpse.easyevents.listeners.DeathEventListener;
+import com.gamercorpse.easyevents.listeners.JoinEventListener;
 import com.gamercorpse.easyevents.milestones.PlayerMilestoneManager;
 import com.gamercorpse.easyevents.modules.ModuleManager;
 import com.gamercorpse.easyevents.randomevents.RandomEventManager;
@@ -20,40 +23,41 @@ public final class EasyEvents extends JavaPlugin {
     private CalendarManager calendarManager;
     private DailyManager dailyManager;
     private ModuleManager moduleManager;
+
     private AutoBroadcastManager autoBroadcastManager;
     private PlayerMilestoneManager playerMilestoneManager;
     private RandomEventManager randomEventManager;
+
+    private JoinEventListener joinEventListener;
+    private DeathEventListener deathEventListener;
+    private AdvancementEventListener advancementEventListener;
+
     private YmlStorage ymlStorage;
     private MySQLStorage mySQLStorage;
+
     private String activeStorageType = "yml";
 
     @Override
     public void onEnable() {
 
-        // Save default config.yml
         saveDefaultConfig();
 
-        // bStats
         int pluginId = 32800;
         new Metrics(this, pluginId);
 
-        // Storage
         initializeStorage();
 
-        // Modules
         moduleManager =
                 new ModuleManager(this);
 
         moduleManager.initialize();
 
-        // Existing feature managers
         calendarManager =
                 new CalendarManager(this);
 
         dailyManager =
                 new DailyManager(this);
 
-        // New feature managers
         autoBroadcastManager =
                 new AutoBroadcastManager(this);
 
@@ -63,10 +67,15 @@ public final class EasyEvents extends JavaPlugin {
         randomEventManager =
                 new RandomEventManager(this);
 
-        // Apply module states
-        applyModuleStates(true);
+        joinEventListener =
+                new JoinEventListener(this);
 
-        // Listeners
+        deathEventListener =
+                new DeathEventListener(this);
+
+        advancementEventListener =
+                new AdvancementEventListener(this);
+
         getServer()
                 .getPluginManager()
                 .registerEvents(
@@ -74,7 +83,29 @@ public final class EasyEvents extends JavaPlugin {
                         this
                 );
 
-        // Commands
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        joinEventListener,
+                        this
+                );
+
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        deathEventListener,
+                        this
+                );
+
+        getServer()
+                .getPluginManager()
+                .registerEvents(
+                        advancementEventListener,
+                        this
+                );
+
+        applyModuleStates(true);
+
         registerCommands();
 
         getLogger().info(
@@ -89,22 +120,41 @@ public final class EasyEvents extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        if (advancementEventListener != null) {
+            advancementEventListener.shutdown();
+        }
+
+        if (deathEventListener != null) {
+            deathEventListener.shutdown();
+        }
+
+        if (joinEventListener != null) {
+            joinEventListener.shutdown();
+        }
+
         if (randomEventManager != null) {
             randomEventManager.shutdown();
         }
+
         if (playerMilestoneManager != null) {
             playerMilestoneManager.shutdown();
         }
+
         if (autoBroadcastManager != null) {
             autoBroadcastManager.shutdown();
         }
+
         if (dailyManager != null) {
             dailyManager.shutdown();
         }
+
         if (calendarManager != null) {
             calendarManager.shutdown();
         }
+
         closeStorage();
+
         getLogger().info(
                 "EasyEvents has been disabled."
         );
@@ -170,6 +220,18 @@ public final class EasyEvents extends JavaPlugin {
         );
 
         applyRandomEventModuleState(
+                initialLoad
+        );
+
+        applyJoinEventModuleState(
+                initialLoad
+        );
+
+        applyDeathEventModuleState(
+                initialLoad
+        );
+
+        applyAdvancementEventModuleState(
                 initialLoad
         );
     }
@@ -348,6 +410,111 @@ public final class EasyEvents extends JavaPlugin {
 
             getLogger().info(
                     "Random Events module is disabled."
+            );
+        }
+    }
+
+    private void applyJoinEventModuleState(
+            boolean initialLoad
+    ) {
+
+        if (joinEventListener == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.JOIN_EVENTS
+        )) {
+
+            if (!joinEventListener.isRunning()) {
+
+                joinEventListener.start();
+
+            } else if (!initialLoad) {
+
+                joinEventListener.reload();
+            }
+
+            getLogger().info(
+                    "Join Events module enabled."
+            );
+
+        } else {
+
+            joinEventListener.shutdown();
+
+            getLogger().info(
+                    "Join Events module is disabled."
+            );
+        }
+    }
+
+    private void applyDeathEventModuleState(
+            boolean initialLoad
+    ) {
+
+        if (deathEventListener == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.DEATH_EVENTS
+        )) {
+
+            if (!deathEventListener.isRunning()) {
+
+                deathEventListener.start();
+
+            } else if (!initialLoad) {
+
+                deathEventListener.reload();
+            }
+
+            getLogger().info(
+                    "Death Events module enabled."
+            );
+
+        } else {
+
+            deathEventListener.shutdown();
+
+            getLogger().info(
+                    "Death Events module is disabled."
+            );
+        }
+    }
+
+    private void applyAdvancementEventModuleState(
+            boolean initialLoad
+    ) {
+
+        if (advancementEventListener == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.ADVANCEMENT_EVENTS
+        )) {
+
+            if (!advancementEventListener.isRunning()) {
+
+                advancementEventListener.start();
+
+            } else if (!initialLoad) {
+
+                advancementEventListener.reload();
+            }
+
+            getLogger().info(
+                    "Advancement Events module enabled."
+            );
+
+        } else {
+
+            advancementEventListener.shutdown();
+
+            getLogger().info(
+                    "Advancement Events module is disabled."
             );
         }
     }
@@ -670,6 +837,18 @@ public final class EasyEvents extends JavaPlugin {
 
     public RandomEventManager getRandomEventManager() {
         return randomEventManager;
+    }
+
+    public JoinEventListener getJoinEventListener() {
+        return joinEventListener;
+    }
+
+    public DeathEventListener getDeathEventListener() {
+        return deathEventListener;
+    }
+
+    public AdvancementEventListener getAdvancementEventListener() {
+        return advancementEventListener;
     }
 
     public YmlStorage getYmlStorage() {
