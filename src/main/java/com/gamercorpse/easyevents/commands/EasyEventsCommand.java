@@ -22,8 +22,7 @@ public class EasyEventsCommand
             EasyEvents plugin
     ) {
 
-        this.plugin =
-                plugin;
+        this.plugin = plugin;
     }
 
     @Override
@@ -120,22 +119,8 @@ public class EasyEventsCommand
                     )
             );
 
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&7Calendar module: " +
-                                    getModuleStatus(
-                                            ModuleManager.CALENDAR
-                                    )
-                    )
-            );
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&7Daily Login module: " +
-                                    getModuleStatus(
-                                            ModuleManager.DAILY_LOGIN
-                                    )
-                    )
+            sendModuleStates(
+                    sender
             );
 
             return true;
@@ -145,96 +130,8 @@ public class EasyEventsCommand
                 "info"
         )) {
 
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&6&m--------------------------------"
-                    )
-            );
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&6&lEasyEvents &7v" +
-                                    plugin.getPluginMeta()
-                                            .getVersion()
-                    )
-            );
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&7Storage: &f" +
-                                    plugin.getActiveStorageType()
-                                            .toUpperCase()
-                    )
-            );
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&7Calendar module: " +
-                                    getModuleStatus(
-                                            ModuleManager.CALENDAR
-                                    )
-                    )
-            );
-
-            if (plugin.isModuleEnabled(
-                    ModuleManager.CALENDAR
-            )) {
-
-                sender.sendMessage(
-                        ColorUtil.colorize(
-                                "&7  Loaded events: &f" +
-                                        plugin.getCalendarManager()
-                                                .getEvents()
-                                                .size()
-                        )
-                );
-
-                sender.sendMessage(
-                        ColorUtil.colorize(
-                                "&7  Timezone: &f" +
-                                        plugin.getCalendarManager()
-                                                .getZoneId()
-                                                .getId()
-                        )
-                );
-            }
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&7Daily Login module: " +
-                                    getModuleStatus(
-                                            ModuleManager.DAILY_LOGIN
-                                    )
-                    )
-            );
-
-            if (plugin.isModuleEnabled(
-                    ModuleManager.DAILY_LOGIN
-            )) {
-
-                sender.sendMessage(
-                        ColorUtil.colorize(
-                                "&7  Reward days: &f" +
-                                        plugin.getDailyManager()
-                                                .getDayKeys()
-                                                .size()
-                        )
-                );
-
-                sender.sendMessage(
-                        ColorUtil.colorize(
-                                "&7  Timezone: &f" +
-                                        plugin.getDailyManager()
-                                                .getZoneId()
-                                                .getId()
-                        )
-                );
-            }
-
-            sender.sendMessage(
-                    ColorUtil.colorize(
-                            "&6&m--------------------------------"
-                    )
+            sendInfo(
+                    sender
             );
 
             return true;
@@ -243,6 +140,201 @@ public class EasyEventsCommand
         sendHelp(sender);
 
         return true;
+    }
+
+    private void sendInfo(
+            CommandSender sender
+    ) {
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&6&m--------------------------------"
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&6&lEasyEvents &7v" +
+                                plugin.getPluginMeta()
+                                        .getVersion()
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Storage: &f" +
+                                plugin.getActiveStorageType()
+                                        .toUpperCase()
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Calendar: " +
+                                getModuleStatus(
+                                        ModuleManager.CALENDAR
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.CALENDAR
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Loaded events: &f" +
+                                    plugin.getCalendarManager()
+                                            .getEvents()
+                                            .size()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Daily Login: " +
+                                getModuleStatus(
+                                        ModuleManager.DAILY_LOGIN
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.DAILY_LOGIN
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Reward days: &f" +
+                                    plugin.getDailyManager()
+                                            .getDayKeys()
+                                            .size()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Auto Broadcast: " +
+                                getModuleStatus(
+                                        ModuleManager.AUTO_BROADCAST
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.AUTO_BROADCAST
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Messages: &f" +
+                                    plugin.getAutoBroadcastManager()
+                                            .getMessageCount()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Player Milestones: " +
+                                getModuleStatus(
+                                        ModuleManager.PLAYER_MILESTONES
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.PLAYER_MILESTONES
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Milestones: &f" +
+                                    plugin.getPlayerMilestoneManager()
+                                            .getMilestoneCount()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Random Events: " +
+                                getModuleStatus(
+                                        ModuleManager.RANDOM_EVENTS
+                                )
+                )
+        );
+
+        if (plugin.isModuleEnabled(
+                ModuleManager.RANDOM_EVENTS
+        )) {
+
+            sender.sendMessage(
+                    ColorUtil.colorize(
+                            "&7  Events: &f" +
+                                    plugin.getRandomEventManager()
+                                            .getEventCount()
+                    )
+            );
+        }
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&6&m--------------------------------"
+                )
+        );
+    }
+
+    private void sendModuleStates(
+            CommandSender sender
+    ) {
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Calendar: " +
+                                getModuleStatus(
+                                        ModuleManager.CALENDAR
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Daily Login: " +
+                                getModuleStatus(
+                                        ModuleManager.DAILY_LOGIN
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Auto Broadcast: " +
+                                getModuleStatus(
+                                        ModuleManager.AUTO_BROADCAST
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Player Milestones: " +
+                                getModuleStatus(
+                                        ModuleManager.PLAYER_MILESTONES
+                                )
+                )
+        );
+
+        sender.sendMessage(
+                ColorUtil.colorize(
+                        "&7Random Events: " +
+                                getModuleStatus(
+                                        ModuleManager.RANDOM_EVENTS
+                                )
+                )
+        );
     }
 
     private void sendHelp(
@@ -274,7 +366,7 @@ public class EasyEventsCommand
 
         sender.sendMessage(
                 ColorUtil.colorize(
-                        "&e/easyevents info &7- View plugin information."
+                        "&e/ee info &7- View plugin information."
                 )
         );
 
@@ -284,7 +376,7 @@ public class EasyEventsCommand
 
             sender.sendMessage(
                     ColorUtil.colorize(
-                            "&e/easyevents reload &7- Reload EasyEvents."
+                            "&e/ee reload &7- Reload EasyEvents."
                     )
             );
         }
@@ -329,21 +421,26 @@ public class EasyEventsCommand
                 ModuleManager.DAILY_LOGIN
         )) {
 
-            completions.add("daily");
+            completions.add(
+                    "daily"
+            );
         }
 
-        completions.add("info");
+        completions.add(
+                "info"
+        );
 
         if (sender.hasPermission(
                 "easyevents.admin"
         )) {
 
-            completions.add("reload");
+            completions.add(
+                    "reload"
+            );
         }
 
         String input =
-                args[0]
-                        .toLowerCase();
+                args[0].toLowerCase();
 
         completions.removeIf(
                 value ->

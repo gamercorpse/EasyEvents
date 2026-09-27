@@ -11,8 +11,20 @@ import java.util.Map;
 
 public class ModuleManager {
 
-    public static final String CALENDAR = "calendar";
-    public static final String DAILY_LOGIN = "daily-login";
+    public static final String CALENDAR =
+            "calendar";
+
+    public static final String DAILY_LOGIN =
+            "daily-login";
+
+    public static final String AUTO_BROADCAST =
+            "auto-broadcast";
+
+    public static final String PLAYER_MILESTONES =
+            "player-milestones";
+
+    public static final String RANDOM_EVENTS =
+            "random-events";
 
     private final EasyEvents plugin;
 
@@ -22,7 +34,10 @@ public class ModuleManager {
     private File modulesFile;
     private FileConfiguration modulesConfig;
 
-    public ModuleManager(EasyEvents plugin) {
+    public ModuleManager(
+            EasyEvents plugin
+    ) {
+
         this.plugin = plugin;
     }
 
@@ -61,13 +76,7 @@ public class ModuleManager {
                         "modules.yml was not found inside the plugin JAR."
                 );
 
-                /*
-                 * Safe fallback:
-                 * existing functionality remains enabled.
-                 */
-                modules.clear();
-                modules.put(CALENDAR, true);
-                modules.put(DAILY_LOGIN, true);
+                loadFallbackModules();
 
                 return;
             }
@@ -87,6 +96,21 @@ public class ModuleManager {
 
         loadModule(
                 DAILY_LOGIN,
+                true
+        );
+
+        loadModule(
+                AUTO_BROADCAST,
+                true
+        );
+
+        loadModule(
+                PLAYER_MILESTONES,
+                true
+        );
+
+        loadModule(
+                RANDOM_EVENTS,
                 true
         );
 
@@ -112,6 +136,36 @@ public class ModuleManager {
         }
     }
 
+    private void loadFallbackModules() {
+
+        modules.clear();
+
+        modules.put(
+                CALENDAR,
+                true
+        );
+
+        modules.put(
+                DAILY_LOGIN,
+                true
+        );
+
+        modules.put(
+                AUTO_BROADCAST,
+                true
+        );
+
+        modules.put(
+                PLAYER_MILESTONES,
+                true
+        );
+
+        modules.put(
+                RANDOM_EVENTS,
+                true
+        );
+    }
+
     private void loadModule(
             String moduleName,
             boolean defaultState
@@ -120,7 +174,9 @@ public class ModuleManager {
         if (modulesConfig == null) {
 
             modules.put(
-                    normalizeModuleName(moduleName),
+                    normalizeModuleName(
+                            moduleName
+                    ),
                     defaultState
             );
 
@@ -139,7 +195,9 @@ public class ModuleManager {
                 );
 
         modules.put(
-                normalizeModuleName(moduleName),
+                normalizeModuleName(
+                        moduleName
+                ),
                 enabled
         );
     }
@@ -155,7 +213,9 @@ public class ModuleManager {
         }
 
         return modules.getOrDefault(
-                normalizeModuleName(moduleName),
+                normalizeModuleName(
+                        moduleName
+                ),
                 false
         );
     }
@@ -164,7 +224,9 @@ public class ModuleManager {
             String moduleName
     ) {
 
-        return !isEnabled(moduleName);
+        return !isEnabled(
+                moduleName
+        );
     }
 
     public Map<String, Boolean> getModules() {

@@ -1,0 +1,68 @@
+# ============================================================
+# EasyEvents Auto Broadcast
+# ============================================================
+#
+# This module automatically rotates through the messages
+# configured below.
+#
+# Module control:
+#
+# modules.yml
+#
+#   auto-broadcast:
+#     enabled: true
+#
+#
+# COLORS
+# ------------------------------------------------------------
+#
+# Legacy:
+#
+#   &aGreen
+#   &cRed
+#
+# RGB:
+#
+#   &#00FF99Text
+#
+# MiniMessage:
+#
+#   <gradient:#00ff99:#00ccff>Text</gradient>
+#
+# ============================================================
+
+settings:
+
+  # Number of seconds between broadcasts.
+  #
+  # 60   = 1 minute
+  # 300  = 5 minutes
+  # 600  = 10 minutes
+  #
+  interval-seconds: 300
+
+
+# ============================================================
+# Messages
+# ============================================================
+#
+# Messages rotate in the order listed.
+#
+# After the final message is broadcast, EasyEvents returns
+# to the first message.
+#
+# Add or remove as many messages as desired.
+#
+# ============================================================
+
+messages:
+
+  - "<gradient:#00ff99:#00ccff><bold>Welcome to the server!</bold></gradient>"
+
+  - "&eRemember to check your daily reward with &6/daily&e!"
+
+  - "&aThanks for playing on our server!"
+
+  - "&#00CCFFJoin our community and invite your friends!"
+
+  - "&6Use &e/ee info &6to view EasyEvents information."

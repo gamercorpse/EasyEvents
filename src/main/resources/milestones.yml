@@ -1,0 +1,121 @@
+# ============================================================
+# EasyEvents Player Milestones
+# ============================================================
+#
+# Player Milestones trigger when the number of online players
+# reaches a configured threshold.
+#
+# A milestone triggers once when the threshold is reached.
+#
+# It will NOT repeatedly trigger while the server remains
+# above that threshold.
+#
+# The milestone becomes armed again when the online player
+# count falls below its configured threshold.
+#
+# Example:
+#
+# 9 players
+#      |
+# player joins
+#      |
+# 10 players
+#      |
+# 10-player milestone triggers
+#      |
+# server stays at 10+
+#      |
+# no additional trigger
+#      |
+# drops to 9
+#      |
+# milestone is armed again
+#      |
+# reaches 10 again
+#      |
+# milestone triggers again
+#
+#
+# PLACEHOLDERS
+# ------------------------------------------------------------
+#
+# %milestone%
+#
+#   Internal milestone name.
+#
+# %required_players%
+#
+#   Configured threshold.
+#
+# %online_players%
+#
+#   Current number of online players.
+#
+#
+# COMMANDS
+# ------------------------------------------------------------
+#
+# Commands execute from the server console.
+#
+# Do not include a slash.
+#
+# ============================================================
+
+settings:
+
+  # How frequently EasyEvents checks the online player count.
+  #
+  check-interval-seconds: 5
+
+
+milestones:
+
+  ten-players:
+
+    enabled: true
+
+    players: 10
+
+    announcements:
+
+      - "<gradient:#00ff99:#00ccff><bold>Player Milestone!</bold></gradient>"
+
+      - "&aWe have reached &e%online_players% &aonline players!"
+
+    commands:
+
+      - "minecraft:say Thanks for helping us reach 10 online players!"
+
+
+  twenty-five-players:
+
+    enabled: true
+
+    players: 25
+
+    announcements:
+
+      - "<gradient:#FFD700:#FF6600><bold>25 PLAYERS ONLINE!</bold></gradient>"
+
+      - "&eThank you for supporting the server!"
+
+    commands:
+
+      - "minecraft:say The server has reached the 25-player milestone!"
+
+
+  fifty-players:
+
+    enabled: true
+
+    players: 50
+
+    announcements:
+
+      - "<gradient:#FF00FF:#00FFFF><bold>50 PLAYER MILESTONE!</bold></gradient>"
+
+      - "&dThere are currently &f%online_players% &dplayers online!"
+
+    commands:
+
+      - "minecraft:say Incredible! We reached 50 players online!"

@@ -1,0 +1,139 @@
+# ============================================================
+# EasyEvents Random Events
+# ============================================================
+#
+# This module periodically checks each configured random
+# event and rolls its configured chance.
+#
+# Each event receives an INDEPENDENT roll.
+#
+# Because rolls are independent, more than one random event
+# may trigger during the same check.
+#
+#
+# CHANCE
+# ------------------------------------------------------------
+#
+# chance-percent is a percentage from 0 to 100.
+#
+# Examples:
+#
+# 100.0 = always triggers
+# 50.0  = 50% chance
+# 10.0  = 10% chance
+# 1.0   = 1% chance
+# 0.5   = 0.5% chance
+#
+#
+# IMPORTANT
+# ------------------------------------------------------------
+#
+# The chance is rolled every:
+#
+# settings.check-interval-seconds
+#
+# Therefore:
+#
+# check-interval-seconds: 300
+# chance-percent: 10
+#
+# means the event receives a 10% chance every five minutes.
+#
+#
+# PLACEHOLDERS
+# ------------------------------------------------------------
+#
+# %event%
+#
+#   Internal event name.
+#
+# %online_players%
+#
+#   Current number of online players.
+#
+#
+# COMMANDS
+# ------------------------------------------------------------
+#
+# Commands execute from the server console.
+#
+# Do not include a slash.
+#
+# ============================================================
+
+settings:
+
+  # How often random event chances are rolled.
+  #
+  # 300 = every 5 minutes
+  #
+  check-interval-seconds: 300
+
+
+  # No random events will be rolled unless at least this many
+  # players are online.
+  #
+  minimum-online-players: 1
+
+
+events:
+
+  surprise-reward:
+
+    enabled: true
+
+    # 10% chance every configured check interval.
+    chance-percent: 10.0
+
+    minimum-online-players: 1
+
+    announcements:
+
+      - "<gradient:#FFD700:#FFFF00><bold>SURPRISE EVENT!</bold></gradient>"
+
+      - "&eEveryone online has received a surprise reward!"
+
+    commands:
+
+      # @a allows vanilla Minecraft to reward every online
+      # player from the console.
+      #
+      - "minecraft:give @a minecraft:diamond 1"
+
+
+  experience-drop:
+
+    enabled: true
+
+    chance-percent: 7.5
+
+    minimum-online-players: 3
+
+    announcements:
+
+      - "<gradient:#00FF00:#00FFFF><bold>EXPERIENCE EVENT!</bold></gradient>"
+
+      - "&aEveryone online receives bonus experience!"
+
+    commands:
+
+      - "minecraft:experience add @a 10 levels"
+
+
+  golden-hour:
+
+    enabled: true
+
+    chance-percent: 5.0
+
+    minimum-online-players: 5
+
+    announcements:
+
+      - "<gradient:#FFD700:#FF6600><bold>GOLDEN EVENT!</bold></gradient>"
+
+      - "&6Everyone online receives some gold!"
+
+    commands:
+
+      - "minecraft:give @a minecraft:gold_ingot 8"

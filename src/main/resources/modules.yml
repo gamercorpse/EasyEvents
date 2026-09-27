@@ -2,50 +2,100 @@
 # EasyEvents Modules
 # ============================================================
 #
-# This file controls which EasyEvents features are enabled.
-# Every feature module is enabled by default.
-# After changing a module, run:
-#   /easyevents reload
-# or:
+# Each EasyEvents feature can be enabled or disabled here.
+#
+# All modules are enabled by default.
+#
+# After changing this file run:
+#
 #   /ee reload
-# A full server restart is not required.
-
-# MODULE BEHAVIOR
-# ------------------------------------------------------------
 #
-# calendar:
+# or:
 #
-#   Controls calendar.yml and scheduled calendar
-#   announcements.
-#
-#   When disabled:
-#
-#   - calendar.yml is not processed
-#   - the calendar scheduler is stopped
-#   - no calendar announcements are broadcast
+#   /easyevents reload
 #
 #
-# daily-login:
+# Storage is core infrastructure and is therefore not a
+# disable-able module.
 #
-#   Controls daily.yml and the daily login reward system.
-#
-#   When disabled:
-#
-#   - /daily cannot be used
-#   - /daily r cannot be used
-#   - /ee daily cannot be used
-#   - daily reward GUIs cannot be claimed
-#   - existing player streak data is NOT deleted
-#
-#   Re-enabling the module restores access to the existing
-#   player data.
+# Storage configuration remains in config.yml.
 #
 # ============================================================
 
 modules:
 
+  # ==========================================================
+  # Calendar
+  # ==========================================================
+  #
+  # Uses:
+  #
+  #   calendar.yml
+  #
+  # Provides date-based recurring and one-time announcements.
+  #
   calendar:
+
     enabled: true
 
+
+  # ==========================================================
+  # Daily Login
+  # ==========================================================
+  #
+  # Uses:
+  #
+  #   daily.yml
+  #
+  # Provides consecutive daily login rewards.
+  #
   daily-login:
+
+    enabled: true
+
+
+  # ==========================================================
+  # Auto Broadcast
+  # ==========================================================
+  #
+  # Uses:
+  #
+  #   broadcasts.yml
+  #
+  # Rotates configurable server announcements automatically.
+  #
+  auto-broadcast:
+
+    enabled: true
+
+
+  # ==========================================================
+  # Player Milestones
+  # ==========================================================
+  #
+  # Uses:
+  #
+  #   milestones.yml
+  #
+  # Triggers announcements and commands when configurable
+  # online-player thresholds are reached.
+  #
+  player-milestones:
+
+    enabled: true
+
+
+  # ==========================================================
+  # Random Events
+  # ==========================================================
+  #
+  # Uses:
+  #
+  #   random-events.yml
+  #
+  # Periodically rolls configurable chances for server-wide
+  # events.
+  #
+  random-events:
+
     enabled: true

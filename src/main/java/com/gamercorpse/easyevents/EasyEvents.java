@@ -1,11 +1,14 @@
 package com.gamercorpse.easyevents;
 
+import com.gamercorpse.easyevents.autobroadcast.AutoBroadcastManager;
 import com.gamercorpse.easyevents.calendar.CalendarManager;
 import com.gamercorpse.easyevents.commands.DailyCommand;
 import com.gamercorpse.easyevents.commands.EasyEventsCommand;
 import com.gamercorpse.easyevents.daily.DailyManager;
 import com.gamercorpse.easyevents.listeners.DailyMenuListener;
+import com.gamercorpse.easyevents.milestones.PlayerMilestoneManager;
 import com.gamercorpse.easyevents.modules.ModuleManager;
+import com.gamercorpse.easyevents.randomevents.RandomEventManager;
 import com.gamercorpse.easyevents.storage.MySQLStorage;
 import com.gamercorpse.easyevents.storage.YmlStorage;
 import org.bstats.bukkit.Metrics;
@@ -17,10 +20,11 @@ public final class EasyEvents extends JavaPlugin {
     private CalendarManager calendarManager;
     private DailyManager dailyManager;
     private ModuleManager moduleManager;
-
+    private AutoBroadcastManager autoBroadcastManager;
+    private PlayerMilestoneManager playerMilestoneManager;
+    private RandomEventManager randomEventManager;
     private YmlStorage ymlStorage;
     private MySQLStorage mySQLStorage;
-
     private String activeStorageType = "yml";
 
     @Override
@@ -36,18 +40,28 @@ public final class EasyEvents extends JavaPlugin {
         // Storage
         initializeStorage();
 
-        // Module configuration
+        // Modules
         moduleManager =
                 new ModuleManager(this);
 
         moduleManager.initialize();
 
-        // Feature managers
+        // Existing feature managers
         calendarManager =
                 new CalendarManager(this);
 
         dailyManager =
                 new DailyManager(this);
+
+        // New feature managers
+        autoBroadcastManager =
+                new AutoBroadcastManager(this);
+
+        playerMilestoneManager =
+                new PlayerMilestoneManager(this);
+
+        randomEventManager =
+                new RandomEventManager(this);
 
         // Apply module states
         applyModuleStates(true);
@@ -75,17 +89,22 @@ public final class EasyEvents extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        if (randomEventManager != null) {
+            randomEventManager.shutdown();
+        }
+        if (playerMilestoneManager != null) {
+            playerMilestoneManager.shutdown();
+        }
+        if (autoBroadcastManager != null) {
+            autoBroadcastManager.shutdown();
+        }
         if (dailyManager != null) {
             dailyManager.shutdown();
         }
-
         if (calendarManager != null) {
             calendarManager.shutdown();
         }
-
         closeStorage();
-
         getLogger().info(
                 "EasyEvents has been disabled."
         );
@@ -141,6 +160,18 @@ public final class EasyEvents extends JavaPlugin {
         applyDailyModuleState(
                 initialLoad
         );
+
+        applyAutoBroadcastModuleState(
+                initialLoad
+        );
+
+        applyPlayerMilestoneModuleState(
+                initialLoad
+        );
+
+        applyRandomEventModuleState(
+                initialLoad
+        );
     }
 
     private void applyCalendarModuleState(
@@ -175,7 +206,6 @@ public final class EasyEvents extends JavaPlugin {
         } else {
 
             if (calendarManager.isRunning()) {
-
                 calendarManager.shutdown();
             }
 
@@ -198,11 +228,8 @@ public final class EasyEvents extends JavaPlugin {
         )) {
 
             if (initialLoad) {
-
                 dailyManager.initialize();
-
             } else {
-
                 dailyManager.reload();
             }
 
@@ -216,6 +243,111 @@ public final class EasyEvents extends JavaPlugin {
 
             getLogger().info(
                     "Daily Login module is disabled."
+            );
+        }
+    }
+
+    private void applyAutoBroadcastModuleState(
+            boolean initialLoad
+    ) {
+
+        if (autoBroadcastManager == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.AUTO_BROADCAST
+        )) {
+
+            if (!autoBroadcastManager.isRunning()) {
+
+                autoBroadcastManager.start();
+
+            } else if (!initialLoad) {
+
+                autoBroadcastManager.reload();
+            }
+
+            getLogger().info(
+                    "Auto Broadcast module enabled."
+            );
+
+        } else {
+
+            autoBroadcastManager.shutdown();
+
+            getLogger().info(
+                    "Auto Broadcast module is disabled."
+            );
+        }
+    }
+
+    private void applyPlayerMilestoneModuleState(
+            boolean initialLoad
+    ) {
+
+        if (playerMilestoneManager == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.PLAYER_MILESTONES
+        )) {
+
+            if (!playerMilestoneManager.isRunning()) {
+
+                playerMilestoneManager.start();
+
+            } else if (!initialLoad) {
+
+                playerMilestoneManager.reload();
+            }
+
+            getLogger().info(
+                    "Player Milestones module enabled."
+            );
+
+        } else {
+
+            playerMilestoneManager.shutdown();
+
+            getLogger().info(
+                    "Player Milestones module is disabled."
+            );
+        }
+    }
+
+    private void applyRandomEventModuleState(
+            boolean initialLoad
+    ) {
+
+        if (randomEventManager == null) {
+            return;
+        }
+
+        if (isModuleEnabled(
+                ModuleManager.RANDOM_EVENTS
+        )) {
+
+            if (!randomEventManager.isRunning()) {
+
+                randomEventManager.start();
+
+            } else if (!initialLoad) {
+
+                randomEventManager.reload();
+            }
+
+            getLogger().info(
+                    "Random Events module enabled."
+            );
+
+        } else {
+
+            randomEventManager.shutdown();
+
+            getLogger().info(
+                    "Random Events module is disabled."
             );
         }
     }
@@ -296,6 +428,7 @@ public final class EasyEvents extends JavaPlugin {
                 );
 
                 startYamlStorage();
+
                 break;
         }
     }
@@ -335,29 +468,14 @@ public final class EasyEvents extends JavaPlugin {
                 "Reloading EasyEvents configuration."
         );
 
-        /*
-         * Main configuration
-         */
         reloadConfig();
 
-        /*
-         * Storage can be switched between YAML and MySQL
-         * during a reload.
-         */
         initializeStorage();
 
-        /*
-         * Reload module configuration before applying
-         * feature configuration.
-         */
         if (moduleManager != null) {
             moduleManager.reload();
         }
 
-        /*
-         * Start, stop, or reload each feature depending
-         * on the newly loaded modules.yml settings.
-         */
         applyModuleStates(false);
 
         getLogger().info(
@@ -540,6 +658,18 @@ public final class EasyEvents extends JavaPlugin {
 
     public ModuleManager getModuleManager() {
         return moduleManager;
+    }
+
+    public AutoBroadcastManager getAutoBroadcastManager() {
+        return autoBroadcastManager;
+    }
+
+    public PlayerMilestoneManager getPlayerMilestoneManager() {
+        return playerMilestoneManager;
+    }
+
+    public RandomEventManager getRandomEventManager() {
+        return randomEventManager;
     }
 
     public YmlStorage getYmlStorage() {
